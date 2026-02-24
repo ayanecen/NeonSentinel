@@ -1,53 +1,204 @@
+:root {
+    --neon-blue: #00f2ff;
+    --neon-pink: #ff00ff;
+    --neon-yellow: #ffff00;
+    --bg-color: #050505;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background: #000;
+    background-color: var(--bg-color);
+    color: #fff;
+    font-family: 'Orbitron', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-#game-container {
-    position: relative;
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 10;
+    pointer-events: none;
 }
 
-#title {
+#ui-layer * {
+    pointer-events: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* HUD */
+#hud {
     position: absolute;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #0ff;
-    font-size: 48px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    box-sizing: border-box;
+    font-size: 1.5rem;
     font-weight: bold;
-    text-shadow: 0 0 10px #0ff,
-                 0 0 20px #0ff,
-                 0 0 30px #0ff;
-    z-index: 100;
-    animation: neonPulse 1.5s infinite alternate;
+    text-shadow: 0 0 10px var(--neon-blue);
+    pointer-events: none;
+    z-index: 20;
 }
 
-#instructions {
+.hud-item {
+    color: var(--neon-blue);
+}
+
+/* Overlays */
+.overlay {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #f0f;
-    font-size: 24px;
-    text-shadow: 0 0 5px #f0f,
-                 0 0 10px #f0f;
-    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 30;
 }
 
-@keyframes neonPulse {
-    from {
-        text-shadow: 0 0 10px #0ff,
-                     0 0 20px #0ff,
-                     0 0 30px #0ff;
+.neon-title {
+    font-size: 4.5rem;
+    margin-bottom: 2rem;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+    letter-spacing: 8px;
+    text-align: center;
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+    to { text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue), 0 0 60px var(--neon-blue); }
+}
+
+.menu-container, .stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.instructions {
+    text-align: center;
+    line-height: 1.8;
+    color: #aaa;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 250px;
+}
+
+label {
+    color: #eee;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Buttons and Inputs */
+.neon-btn {
+    padding: 15px 50px;
+    font-size: 1.6rem;
+    background: transparent;
+    color: var(--neon-pink);
+    border: 2px solid var(--neon-pink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+    margin-top: 10px;
+}
+
+.neon-btn:hover {
+    background: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 30px var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.neon-btn:active {
+    transform: scale(0.95);
+}
+
+.toggle-btn {
+    padding: 8px 20px;
+    background: rgba(255, 255, 0, 0.1);
+    color: var(--neon-yellow);
+    border: 1px solid var(--neon-yellow);
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 80px;
+    transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+    background: var(--neon-yellow);
+    color: #000;
+}
+
+select {
+    background: #111;
+    color: #fff;
+    border: 1px solid var(--neon-blue);
+    padding: 8px 12px;
+    cursor: pointer;
+    outline: none;
+    font-family: inherit;
+}
+
+select:focus {
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@media (max-width: 600px) {
+    .neon-title {
+        font-size: 2.8rem;
+        letter-spacing: 4px;
     }
-    to {
-        text-shadow: 0 0 5px #0ff,
-                     0 0 10px #0ff,
-                     0 0 15px #0ff;
+    #hud {
+        padding: 0 20px;
+        font-size: 1.2rem;
     }
-} 
+    .neon-btn {
+        padding: 12px 35px;
+        font-size: 1.3rem;
+    }
+}

@@ -2,18 +2,59 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neon Sentinel</title>
+    <!-- Google Fonts: Orbitron -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <!-- p5.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 </head>
 <body>
-    <div id="game-container">
-        <div id="title">NEON SENTINEL</div>
-        <div id="instructions">
-            ←→ で移動 / SPACE で発射
+    <div id="ui-layer">
+        <!-- HUD: プレイ中のスコア・ライフ表示 -->
+        <div id="hud" class="hidden">
+            <div class="hud-item">SCORE: <span id="score-val">0</span></div>
+            <div class="hud-item">LIVES: <span id="lives-val">3</span></div>
+        </div>
+
+        <!-- Title Screen: ゲーム開始前のタイトル画面 -->
+        <div id="title-screen" class="overlay">
+            <h1 class="neon-title">NEON SENTINEL</h1>
+            <div class="menu-container">
+                <div class="instructions">
+                    PC: [A][D] or [←][→] to Move / [SPACE] or Click to Shoot<br>
+                    Mobile: Tap and Hold to Shoot
+                </div>
+                <div class="settings">
+                    <div class="setting-row">
+                        <label for="difficulty-select">DIFFICULTY:</label>
+                        <select id="difficulty-select">
+                            <option value="easy">EASY</option>
+                            <option value="normal" selected>NORMAL</option>
+                            <option value="hard">HARD</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label>SOUND:</label>
+                        <button id="sound-toggle" class="toggle-btn">ON</button>
+                    </div>
+                </div>
+                <button id="start-btn" class="neon-btn">START MISSION</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen: ゲーム終了時のリザルト画面 -->
+        <div id="game-over-screen" class="overlay hidden">
+            <h2 class="neon-title">MISSION FAILED</h2>
+            <div class="stats">
+                <p>FINAL SCORE: <span id="final-score-val">0</span></p>
+            </div>
+            <button id="restart-btn" class="neon-btn">RESTART</button>
         </div>
     </div>
+
+    <!-- p5.js の Canvas は自動的に挿入されます -->
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
